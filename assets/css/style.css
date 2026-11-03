@@ -157,17 +157,20 @@ button { font: inherit; }
   left: 4.05%; top: 2.34%;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  height: 33px;
-  padding: 0 14px 0 12px;
+  gap: 8px;
+  height: 34px;
+  padding: 0 16px 0 15px;
   border-radius: 999px;
-  background: rgba(9, 12, 38, .55);
-  border: 1px solid var(--line);
-  color: var(--gold-text);
-  font-size: 14px;
-  font-weight: 500;
+  background: rgba(255, 255, 255, .12);
+  border: 1px solid rgba(255, 255, 255, .18);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .02em;
 }
-.badge-icon { width: 26px; aspect-ratio: auto 50 / 41; display: block; }
+.badge-icon { width: 17px; aspect-ratio: auto 48 / 47; display: block; }
 
 .home-hero { position: absolute; left: 0; right: 0; top: 26.15%; text-align: center; }
 .hero-kicker { font-size: 17px; line-height: 24px; font-weight: 600; }

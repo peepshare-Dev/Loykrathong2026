@@ -28,7 +28,7 @@
 | 6 | `home/krathong items.svg` | `.hk-lotus-r`, `.hk-lotus-l`, `.hk-big` | 189×218 (vector) | 3 | โยกบนคลื่น + ไฟสั่น + แสงฟุ้ง | ✅ มีแล้ว |
 | 7 | `home/krathong items _ smail.svg` | `.hk-bowl-l`, `.hk-bowl-r` | 93×85 (vector) | 2 | โยกบนคลื่น + ไฟสั่น + แสงฟุ้ง | ✅ มีแล้ว |
 | 8 | ข้อความ ป้าย ปุ่ม (HTML) | | | | | |
-| 9 | `home/krathong icons.svg` | `.badge-icon` | 50×41 (vector) | 1 | – | ✅ มีแล้ว |
+| 9 | `home/Logo peepshare.svg` | `.badge-icon` (ใช้ไฟล์เดียวกับโลโก้ฟุตเตอร์) | 48×47 (vector) | 1 | – | ✅ มีแล้ว |
 | 10 | `home/Logo peepshare.svg` | `.peep-logo` | 48×47 (vector) | 1 | – | ✅ มีแล้ว |
 
 ### ชิ้นที่ต้องแยกออกมาเพื่อทำ animation
