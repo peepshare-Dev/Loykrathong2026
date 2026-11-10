@@ -14,7 +14,7 @@
   const wait = (ms) => sleep(reduceMotion ? 0 : ms);
 
   const MAX_MSG = 140;
-  const PAGE = 12;
+  const PAGE = 10;
 
   /* ---------- utils ---------- */
   function esc(s) {
@@ -275,8 +275,6 @@
      Wishes
      ======================================================= */
   const wishes = new Map();
-  let oldestId = null;
-  let hasMore = false;
   let loading = false;
 
   // กระทงมุมบนแบบสว่าง (มีแสงฟุ้ง) ถ้าไม่มีใช้แบบปกติ
@@ -334,7 +332,6 @@
       setDriftFrac(0);
     } else {
       const max = document.documentElement.scrollHeight - window.innerHeight;
-      if (max - driftPos < window.innerHeight) extendWishes();
       if (driftPos < max - 1) {
         driftPos = Math.min(max, driftPos + (DRIFT_SPEED * dt) / 1000);
         // เบราว์เซอร์เลื่อนได้ทีละ 1px เต็ม → เลื่อนส่วนเต็ม แล้วขยับเศษที่เหลือด้วย transform
@@ -355,13 +352,6 @@
     $('#wishGrid').style.transform = px ? `translate3d(0, ${-px}px, 0)` : '';
   }
 
-  // ต่อรายการ: มีหน้าถัดไปก็โหลด ไม่มีแล้วก็วนรายการเดิมซ้ำ
-  function extendWishes() {
-    if (loading || route !== 'wishes' || !wishes.size) return;
-    if (hasMore) loadWishes(false);
-    else appendWishes(Array.from(wishes.values()));
-  }
-
   function pauseDrift() { driftPausedUntil = performance.now() + DRIFT_RESUME; }
 
   function startDrift() {
@@ -380,27 +370,21 @@
     if (loading) return;
     loading = true;
     try {
-      const res = await Api.listWishes({ limit: PAGE, before_id: initial ? null : oldestId });
+      const res = await Api.listWishes({ limit: PAGE });
       if (route !== 'wishes') return;
       if (initial) { $$('#wishGrid .wl-col').forEach((c) => { c.innerHTML = ''; }); wishCount = 0; }
       res.data.forEach((w) => wishes.set(w.id, w));
       appendWishes(res.data);
-      if (res.data.length) oldestId = res.data[res.data.length - 1].id;
-      hasMore = !!res.has_more;
       $('#wishEmpty').hidden = wishes.size > 0;
     } catch (e) {
       toast(e.message || 'โหลดคำอวยพรไม่สำเร็จ');
     } finally {
       loading = false;
     }
-    // ถ้าเนื้อหายังสั้นจนเห็นจุดโหลดเพิ่ม ให้ต่อรายการเลย
-    if (moreVisible) extendWishes();
   }
 
   enter.wishes = () => {
     wishes.clear();
-    oldestId = null;
-    hasMore = false;
     $('#wishEmpty').hidden = true;
     const sk = '<div class="wish-item skeleton"><span class="wi-top"></span><span class="wi-card"></span></div>';
     $$('#wishGrid .wl-col').forEach((c) => { c.innerHTML = sk.repeat(2); });
@@ -409,14 +393,7 @@
   };
   leave.wishes = () => { stopDrift(); };
 
-  // เลื่อนลงจนสุดแล้วโหลดเพิ่มเอง
-  let moreVisible = false;
   function bindWishes() {
-    new IntersectionObserver(([e]) => {
-      moreVisible = e.isIntersecting;
-      if (moreVisible) extendWishes();
-    }, { rootMargin: '400px 0px' }).observe($('#wishMore'));
-
     ['wheel', 'touchstart', 'touchmove', 'pointerdown', 'keydown'].forEach((type) =>
       window.addEventListener(type, () => { if (driftOn) pauseDrift(); }, { passive: true }));
     // เลื่อนที่ไม่ได้มาจากเรา (แรงเหวี่ยงหลังปล่อยนิ้ว, ลาก scrollbar) → หยุดไหลชั่วคราว

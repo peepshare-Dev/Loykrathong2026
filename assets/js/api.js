@@ -145,7 +145,7 @@
       });
     }
 
-    async function listWishes({ limit = 12, before_id = null, poll = false } = {}) {
+    async function listWishes({ limit = 10, before_id = null, poll = false } = {}) {
       await sleep(220);
       if (poll) simulateIncoming();
       let list = sorted();
@@ -196,7 +196,7 @@
      Live API
      ======================================================= */
   const Live = {
-    listWishes: ({ limit = 12, before_id = null } = {}) => http('wishes.php', { query: { limit, before_id } }),
+    listWishes: ({ limit = 10, before_id = null } = {}) => http('wishes.php', { query: { limit, before_id } }),
     createWish: (input) => http('wishes.php', { method: 'POST', body: input }),
     getStats: () => http('stats.php'),
   };
